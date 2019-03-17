@@ -18,11 +18,9 @@ public class PQHeap implements PQ {
 		listOfElements = new Element[maxElms];		
     }
 	 
-	/* Metoden extractMin() skal returnere det element i prioritetskøen, som har mindst prioritet */
+	/* Metoden extractMin() skal returnere det element i prioritetskøen, som har mindst prioritet 
+	 * Vi antager, at prioritetskøen ikke er tom */
 	public Element extractMin(){
-		if (heapSize < 1){
-			System.out.println("Error: Heap underflow");
-		}
 		Element min = listOfElements[1];
 		listOfElements[1] = listOfElements[heapSize];
 		heapSize = heapSize-1;
