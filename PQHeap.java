@@ -8,43 +8,84 @@ import java.util.*;
 public class PQHeap implements PQ {
 
 	int heapSize;
-	//int maxElms;
 	Element[] listOfElements;
 
+	//Constructor
 	public PQHeap(int maxElms) {
-		//PQHeap pqheap = new PQHeap(maxElms);
-		//this.maxElms = i;
-		listOfElements = new Element[maxElms];
+		listOfElements = new Element[maxElms];		
     }
 
-
-
-
+	// HeapSize angiver antallet af heap-elementer i arrayet, modsat array.length() der angiver arrayets længde
 	public int heapSize(Element[] heapArray){ 
-	//Først skal vi have størrelsen på heapet
-	heapSize = 0;
-	for (int i = 0; i < heapArray.length; i++){
-		if(heapArray != null){
-		heapSize++;
-		}		
+		heapSize = 0;
+		for (int i = 0; i < heapArray.length; i++){
+			if(heapArray != null){
+			heapSize++;
+			}		
+		}
+		return heapSize;
 	}
-	return heapSize;
-	}
-	       
-
-
-		 
+	
+	// Metoden extractMin() skal returnere det element i prioritetskøen, som har mindst prioritet.
 	public Element extractMin(){
-	// Metoden extractMin() skal returnere det element i prioritetsken, som har mindst prioritet.
-	int i = 0;
-	//while(i<heapSize)
-	return listOfElements[i];
+		if (heapSize < 1){
+			System.out.println("Fejl");
+		}
+		Element min = listOfElements[1];
+		listOfElements[1] = listOfElements[heapSize];
+		//heapSize = heapSize;
+		//minHeapify(listOfElements[1].getKey());
+		minHeapify(1);
+		return min;		
 	}
 
+	//Laver faktisk et heap
+	public void minHeapify(int i){
+		int l = left(i);
+		int r = right(i);
+		int smallest;
 
+		if (l >= heapSize && listOfElements[l].getKey() < listOfElements[i].getKey()) {
+			smallest = l;
+			}
+			else { 
+			smallest = i;
+			}
 
+		if (r >= heapSize && listOfElements[r].getKey() < listOfElements[smallest].getKey()) {
+			smallest = r;
+		}
+
+		if (smallest != i) {
+		//Exchange A[i] with A[smallest]
+			Element temp = listOfElements[i];
+			listOfElements[i] = listOfElements[smallest];
+			listOfElements[smallest] = temp;		
+			minHeapify(smallest);
+		}
+	}
+
+	/* Metoden insert(e) indsætter elementer til vores prioritets kø, listOfElements. 
+	 * Disse elementer er givet vedhjælp af en scanner i main klassen.
+	 */
 	public void insert(Element e){
-	// Metoden insert(e) skal indstte elementet e i prioritetskøen.
+		heapSize = heapSize + 1;
+		int i = heapSize;
+		listOfElements[i] = e;
+		
+		while(i > 1 && listOfElements[parent(i)].getKey() < listOfElements[i].getKey()){
+			Element temp = listOfElements[i];
+			listOfElements[i] = listOfElements[parent(i)];
+			listOfElements[parent(i)] = temp;		
+			i = parent(i);
+			//i = listOfElements[parent(i)].getKey()		
+		}
+		//minHeapify(i);
+	}
+	
+
+/*
+	
 	int i = 0;
         for (int j = 0; j < listOfElements.length; j++) {
             if(listOfElements[j] == null){
@@ -54,7 +95,22 @@ public class PQHeap implements PQ {
                 i++;
             }
 		}
+
+		
 	}
 
-	
+	*/
+
+	/* Udregner parent, left og right */
+	public int parent (int i){
+		return i/2;
+	}
+
+	public int left (int i){
+		return (2 * i);
+	}
+
+	public int right (int i){
+		return (2*i) + 1;
+	}
 }
