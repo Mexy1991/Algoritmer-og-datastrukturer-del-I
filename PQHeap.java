@@ -32,8 +32,8 @@ public class PQHeap implements PQ {
 			System.out.println("Fejl");
 		}
 		Element min = listOfElements[1];
-		listOfElements[1] = listOfElements[heapSize-1];
-		//heapSize = heapSize;
+		listOfElements[1] = listOfElements[heapSize];
+		heapSize = heapSize-1;
 		//minHeapify(listOfElements[1].getKey());
 		minHeapify(1);
 		return min;		
@@ -45,14 +45,14 @@ public class PQHeap implements PQ {
 		int right = right(i);
 		int smallest;
 
-		if (left <= heapSize && listOfElements[left].getKey() < listOfElements[i].getKey()) {
+		if (left <= heapSize && listOfElements[left].getKey() > listOfElements[i].getKey()) {
 			smallest = left;
 			}
 			else { 
 			smallest = i;
 			}
 
-		if (right <= heapSize && listOfElements[right].getKey() < listOfElements[smallest].getKey()) {
+		if (right <= heapSize && listOfElements[right].getKey() > listOfElements[smallest].getKey()) {
 			smallest = right;
 		}
 
